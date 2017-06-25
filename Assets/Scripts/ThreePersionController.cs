@@ -20,6 +20,8 @@ public class ThreePersionController : MonoBehaviour {
     public Vector3 horiVelocity;
     public Vector3 vertVelocity;
 
+    private float timer;
+
     // Update is called once per frame
     void Update () {
         float vertical = Input.GetAxis("Vertical");
@@ -89,7 +91,6 @@ public class ThreePersionController : MonoBehaviour {
 
     }
 
-
     void CalculateHeight () {
         Vector3 originVector = mainCamera.transform.position;
         Vector3 localVector = mainCamera.transform.localPosition;
@@ -112,8 +113,14 @@ public class ThreePersionController : MonoBehaviour {
         if (isVertMove || isHoriMove) {
             float rotate = Mathf.Atan2(player.GetComponent<Rigidbody>().velocity.x, player.GetComponent<Rigidbody>().velocity.z);
             player.transform.rotation = Quaternion.Euler(0, rotate / Mathf.PI * 180, 0);
+
+            timer = 0.1f;
         } else {
-            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            if (timer >= 0) {
+                timer -= Time.deltaTime;
+            } else {
+                player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            }
         }
     }
 }
