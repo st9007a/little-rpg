@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThreePersionController : MonoBehaviour {
+public class ThreePersonController : MonoBehaviour {
 
     public GameObject player;
     public GameObject mainCamera;
