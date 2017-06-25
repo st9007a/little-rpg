@@ -114,7 +114,7 @@ public class ThreePersionController : MonoBehaviour {
             float rotate = Mathf.Atan2(player.GetComponent<Rigidbody>().velocity.x, player.GetComponent<Rigidbody>().velocity.z);
             player.transform.rotation = Quaternion.Euler(0, rotate / Mathf.PI * 180, 0);
 
-            timer = 0.1f;
+            timer = 0.05f;
         } else {
             if (timer >= 0) {
                 timer -= Time.deltaTime;
