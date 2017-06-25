@@ -40,7 +40,6 @@ public class ThreePersionController : MonoBehaviour {
 
         if (vertical > 0) {
             vertVelocity = forward * moveSpeed;
-            //Camera chases the player
             if (distance.magnitude > maxDistance) {
                 float originY = cameraCollisionBox.transform.position.y;
                 Vector3 newPosition = player.transform.position + distance.normalized * maxDistance;
@@ -48,13 +47,15 @@ public class ThreePersionController : MonoBehaviour {
                 cameraCollisionBox.transform.position = newPosition;
             }
 
-            CalculateHeight();
             isVertMove = true;
+
+            if (cameraProbe.counter > 0) {
+                CalculateHeight();
+            }
 
         } else if (vertical < 0) {
             vertVelocity = -forward * moveSpeed;
             if (cameraProbe.counter <= 0) {
-                //Camera chases the player
                 float originY = cameraCollisionBox.transform.position.y;
                 Vector3 newPosition = player.transform.position + distance.normalized * maxDistance;
                 newPosition.y = originY;
@@ -67,7 +68,6 @@ public class ThreePersionController : MonoBehaviour {
         } else {
             isVertMove = false;
         }
-
 
         if (horizontal > 0) {
             if (frontProbe.counter > 0) {
