@@ -14,6 +14,7 @@ public class AnimatorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		animator.SetFloat("velocity", this.GetComponent<Rigidbody>().velocity.magnitude);	
+		animator.SetFloat("velocity", new Vector3(this.GetComponent<Rigidbody>().velocity.x, 0, this.GetComponent<Rigidbody>().velocity.z).magnitude);	
+		animator.SetBool("jump", Input.GetKeyDown("space"));
 	}
 }

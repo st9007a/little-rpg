@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ThreePersionController : MonoBehaviour {
 
+    //public static Vector3 gravity = new Vector3(0, -9.8f, 0);
+
     public GameObject player;
     public GameObject mainCamera;
     public GameObject cameraCollisionBox;
@@ -13,17 +15,27 @@ public class ThreePersionController : MonoBehaviour {
     public float vertiaclRatio;
     public float maxDistance;
     public float moveSpeed;
+    // public float jump;
 
     public bool isHoriMove;
     public bool isVertMove;
+    //public bool isJump;
 
     public Vector3 horiVelocity;
     public Vector3 vertVelocity;
+    //public Vector3 upVelocity;
 
-    private float timer;
+    Rigidbody rb;
 
-    // Update is called once per frame
+    private float idleTimer;
+    private float jumpTimer;
+
+    void Start () {
+        rb = player.GetComponent<Rigidbody>();
+    }
+
     void Update () {
+
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
 
@@ -87,8 +99,12 @@ public class ThreePersionController : MonoBehaviour {
             isHoriMove = false;
         }
 
-        Draw();
+        //if (Input.GetKeyDown("space") && !isJump) {
+        //    rb.velocity += Vector3.up * jump;
+        //    isJump = true;
+        //}
 
+        Draw();
     }
 
     void CalculateHeight () {
@@ -102,25 +118,36 @@ public class ThreePersionController : MonoBehaviour {
     }
 
     void Draw() {
-        if (isHoriMove && isVertMove) {
-            player.GetComponent<Rigidbody>().velocity = horiVelocity + vertVelocity;
-        } else if (isHoriMove) {
-            player.GetComponent<Rigidbody>().velocity = horiVelocity;
-        } else if (isVertMove) {
-            player.GetComponent<Rigidbody>().velocity = vertVelocity;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        if (isHoriMove) {
+            rb.velocity += horiVelocity;
+        }
+        if (isVertMove) {
+            rb.velocity += vertVelocity;
         }
 
         if (isVertMove || isHoriMove) {
-            float rotate = Mathf.Atan2(player.GetComponent<Rigidbody>().velocity.x, player.GetComponent<Rigidbody>().velocity.z);
+            float rotate = Mathf.Atan2(rb.velocity.x, rb.velocity.z);
             player.transform.rotation = Quaternion.Euler(0, rotate / Mathf.PI * 180, 0);
 
-            timer = 0.05f;
+            idleTimer = 0.05f;
         } else {
-            if (timer >= 0) {
-                timer -= Time.deltaTime;
+            if (idleTimer >= 0) {
+                idleTimer -= Time.deltaTime;
             } else {
-                player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                Vector3 newVel = rb.velocity;
+                newVel.x = 0;
+                newVel.z = 0;
+                rb.velocity = newVel;
             }
         }
+
+        //if (isJump) {
+        //    if (rb.velocity.y > 0) {
+        //        rb.velocity += gravity * Time.deltaTime;
+        //    } else {
+        //        isJump = false;
+        //    }
+        //}
     }
 }
