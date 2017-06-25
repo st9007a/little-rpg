@@ -12,17 +12,22 @@ public class JumpBehavior : StateMachineBehaviour {
 	public float jump;
 
 	private float timer;
+	private float originX;
+	private float originZ;
 
 	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 		timer = 0;
 		isJump = false;
+	    animator.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, animator.gameObject.GetComponent<Rigidbody>().velocity.y, 0);
 	}
 
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+		if (timer < jumpPoint || timer > fallPoint) {
+			animator.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+		}
 		if (timer >= jumpPoint && !isJump) {
 			isJump = true;
-			animator.gameObject.GetComponent<Rigidbody>().velocity += new Vector3(0, jump, 0);
-			Debug.Log(timer);
+			animator.gameObject.GetComponent<Rigidbody>().velocity += Vector3.up * jump;
 		}
 
 		if (animator.gameObject.GetComponent<Rigidbody>().velocity.y > 0) {

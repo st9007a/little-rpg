@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ThreePersionController : MonoBehaviour {
 
-    //public static Vector3 gravity = new Vector3(0, -9.8f, 0);
-
     public GameObject player;
     public GameObject mainCamera;
     public GameObject cameraCollisionBox;
@@ -15,15 +13,12 @@ public class ThreePersionController : MonoBehaviour {
     public float vertiaclRatio;
     public float maxDistance;
     public float moveSpeed;
-    // public float jump;
 
     public bool isHoriMove;
     public bool isVertMove;
-    //public bool isJump;
 
     public Vector3 horiVelocity;
     public Vector3 vertVelocity;
-    //public Vector3 upVelocity;
 
     Rigidbody rb;
 
@@ -99,10 +94,6 @@ public class ThreePersionController : MonoBehaviour {
             isHoriMove = false;
         }
 
-        //if (Input.GetKeyDown("space") && !isJump) {
-        //    rb.velocity += Vector3.up * jump;
-        //    isJump = true;
-        //}
 
         Draw();
     }
@@ -117,7 +108,7 @@ public class ThreePersionController : MonoBehaviour {
         mainCamera.transform.localPosition = localVector * vertiaclRatio;
     }
 
-    void Draw() {
+    public void Draw() {
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
         if (isHoriMove) {
             rb.velocity += horiVelocity;
@@ -142,12 +133,5 @@ public class ThreePersionController : MonoBehaviour {
             }
         }
 
-        //if (isJump) {
-        //    if (rb.velocity.y > 0) {
-        //        rb.velocity += gravity * Time.deltaTime;
-        //    } else {
-        //        isJump = false;
-        //    }
-        //}
     }
 }
