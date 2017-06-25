@@ -14,11 +14,12 @@ public class ThreePersionController : MonoBehaviour {
     public float maxDistance;
     public float moveSpeed;
 
-    // Use this for initialization
-    void Start () {
-        
-    }
-	
+    public bool isHoriMove;
+    public bool isVertMove;
+
+    public Vector3 horiVelocity;
+    public Vector3 vertVelocity;
+
     // Update is called once per frame
     void Update () {
         float vertical = Input.GetAxis("Vertical");
@@ -28,11 +29,15 @@ public class ThreePersionController : MonoBehaviour {
         forward.y = 0;
         forward.Normalize();
 
+        Vector3 right = mainCamera.transform.right;
+        right.y = 0;
+        right.Normalize();
+
         Vector3 distance = mainCamera.transform.position - player.transform.position;
         distance.y = 0;
 
         if (vertical > 0) {
-            player.GetComponent<Rigidbody>().velocity = forward * moveSpeed;
+            vertVelocity = forward * moveSpeed;
             //Camera chases the player
             if (distance.magnitude > maxDistance) {
                 float originY = cameraCollisionBox.transform.position.y;
@@ -41,17 +46,47 @@ public class ThreePersionController : MonoBehaviour {
                 cameraCollisionBox.transform.position = newPosition;
             }
 
-        } else if (vertical < 0) {
-            player.GetComponent<Rigidbody>().velocity = -forward * moveSpeed;
+            CalculateHeight();
+            isVertMove = true;
 
-            //Camera chases the player
-            float originY = cameraCollisionBox.transform.position.y;
-            Vector3 newPosition = player.transform.position + distance.normalized * maxDistance;
-            newPosition.y = originY;
-            cameraCollisionBox.transform.position = newPosition;
+        } else if (vertical < 0) {
+            vertVelocity = -forward * moveSpeed;
+            if (cameraProbe.counter <= 0) {
+                //Camera chases the player
+                float originY = cameraCollisionBox.transform.position.y;
+                Vector3 newPosition = player.transform.position + distance.normalized * maxDistance;
+                newPosition.y = originY;
+                cameraCollisionBox.transform.position = newPosition;
+            } else {
+                CalculateHeight();
+            }
+
+            isVertMove = true;
         } else {
-            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            isVertMove = false;
         }
+
+
+        if (horizontal > 0) {
+            if (frontProbe.counter > 0) {
+                cameraCollisionBox.transform.position += -right * moveSpeed * Time.deltaTime;
+            }
+
+            horiVelocity = right * moveSpeed;
+            isHoriMove = true;
+
+        } else if (horizontal < 0) {
+            if (frontProbe.counter > 0) {
+                cameraCollisionBox.transform.position += right * moveSpeed * Time.deltaTime;
+            }
+            horiVelocity = -right * moveSpeed;
+            isHoriMove = true;
+        } else {
+            isHoriMove = false;
+        }
+
+        Draw();
+
     }
 
 
@@ -63,5 +98,22 @@ public class ThreePersionController : MonoBehaviour {
         localVector.y = maxDistance - (originVector - player.transform.position).magnitude;
 
         mainCamera.transform.localPosition = localVector * vertiaclRatio;
+    }
+
+    void Draw() {
+        if (isHoriMove && isVertMove) {
+            player.GetComponent<Rigidbody>().velocity = horiVelocity + vertVelocity;
+        } else if (isHoriMove) {
+            player.GetComponent<Rigidbody>().velocity = horiVelocity;
+        } else if (isVertMove) {
+            player.GetComponent<Rigidbody>().velocity = vertVelocity;
+        }
+
+        if (isVertMove || isHoriMove) {
+            float rotate = Mathf.Atan2(player.GetComponent<Rigidbody>().velocity.x, player.GetComponent<Rigidbody>().velocity.z);
+            player.transform.rotation = Quaternion.Euler(0, rotate / Mathf.PI * 180, 0);
+        } else {
+            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
     }
 }
