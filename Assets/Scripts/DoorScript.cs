@@ -12,5 +12,13 @@ public class DoorScript : MonoBehaviour {
 
 	void OpenDoor() {
 		GetComponent<Animator>().SetTrigger("open");
+		trigger.Handler -= OpenDoor;
+		trigger.Handler += CloseDoor;
+	}
+
+	void CloseDoor() {
+		GetComponent<Animator>().SetTrigger("close");
+		trigger.Handler -= CloseDoor;
+		trigger.Handler += OpenDoor;
 	}
 }
