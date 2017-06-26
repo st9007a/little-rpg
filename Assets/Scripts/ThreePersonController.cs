@@ -57,7 +57,7 @@ public class ThreePersonController : MonoBehaviour {
             isVertMove = true;
 
             if (cameraProbe.counter > 0) {
-                CalculateHeight();
+                //CalculateHeight();
             }
 
         } else if (vertical < 0) {
@@ -68,7 +68,7 @@ public class ThreePersonController : MonoBehaviour {
                 newPosition.y = originY;
                 cameraCollisionBox.transform.position = newPosition;
             } else {
-                CalculateHeight();
+                //CalculateHeight();
             }
 
             isVertMove = true;

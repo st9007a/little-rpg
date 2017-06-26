@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class EventTrigger : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+
+	public delegate void HandleAction();
+	public event HandleAction Handler;
+
+	private bool isActive = false;
 	
-	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKeyDown("z") && isActive && Handler != null) {
+			Handler();
+		}
+	}
+
+	void OnTriggerEnter(Collider c) {
+		isActive = true;
+	}
+
+	void OnTriggerExit(Collider c) {
+		isActive = false;
 	}
 }
