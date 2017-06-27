@@ -1,0 +1,6 @@
+<MainScene xmlns="MarkLight">
+    <UserInterface>
+        <DialogBox />
+    </UserInterface>
+    <EventSystem />
+</MainScene>
