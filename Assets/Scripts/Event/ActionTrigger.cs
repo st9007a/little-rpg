@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventTrigger : MonoBehaviour {
+public class ActionTrigger : MonoBehaviour {
 
 	public int objectId;
 	public bool autoTrigger = false;
