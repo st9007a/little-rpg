@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorScript : MonoBehaviour {
+public class DoorScript : EventScript {
+    private const int OPEN_STATE = 0;
+	private const int CLOSE_STATE = 1;
 
-	public EventTrigger trigger;
+	public int state{ private set; get; }
 
-	void Start () {
-		trigger.Handler += OpenDoor;
+	void Awake() {
+		state = CLOSE_STATE;
 	}
 
-	void OpenDoor() {
-		GetComponent<Animator>().SetTrigger("open");
-		trigger.Handler -= OpenDoor;
-		trigger.Handler += CloseDoor;
+	void ToggleDoor() {
+		if (state == CLOSE_STATE) {
+			GetComponent<Animator>().SetTrigger("open");
+			state = OPEN_STATE;
+		}
+		else {
+			GetComponent<Animator>().SetTrigger("close");
+			state = CLOSE_STATE;
+		}
 	}
 
-	void CloseDoor() {
-		GetComponent<Animator>().SetTrigger("close");
-		trigger.Handler -= CloseDoor;
-		trigger.Handler += OpenDoor;
+	public override void Handler() {
+		ToggleDoor();
 	}
 }
