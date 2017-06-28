@@ -12,7 +12,7 @@ public class DoorScript : EventScript {
 		state = CLOSE_STATE;
 	}
 
-	void ToggleDoor() {
+	public override void Handler() {
 		if (state == CLOSE_STATE) {
 			GetComponent<Animator>().SetTrigger("open");
 			state = OPEN_STATE;
@@ -21,9 +21,5 @@ public class DoorScript : EventScript {
 			GetComponent<Animator>().SetTrigger("close");
 			state = CLOSE_STATE;
 		}
-	}
-
-	public override void Handler() {
-		ToggleDoor();
 	}
 }

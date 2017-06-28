@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour {
 
+	public List<EventScript> DEV_ACTION_LIST;
 	public int currentEventId{ private set; get; }
 	private EventStore store;
 
@@ -19,7 +20,7 @@ public class EventManager : MonoBehaviour {
 		if (db.SetMessage(message)) {
 			switch (message.callback) {
 				case SingleEvent.CallbackAction.Door:
-					Debug.Log("Open Door");
+					DEV_ACTION_LIST[0].Handler();
 					break;
 				default:
 					break;
