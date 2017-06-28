@@ -1,3 +1,19 @@
 <DialogBox xmlns="MarkLight">
-    <Button Text="Test" Click="OnClick" />
+    <Region Height="75%" Alignment="Top">
+    </Region>
+    <Region 
+        Height="25%"
+        Alignment="Bottom" 
+        Margin="10,10,10,10"
+        >
+        <Panel
+            BackgroundColor="#000000"
+            ContentAlignment="TopLeft"
+            IsActive="{active}"
+            HorizontalScrollbarVisibility="Hidden"
+            VerticalScrollbarVisibility="Hidden"
+            >
+            <Label Text="{message}" Margin="10,10,10,10"></Label>
+        </Panel>
+    </Region>
 </DialogBox>
