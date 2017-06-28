@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class EventStore : Dictionary<int, Dictionary<int, string>> {
+public class EventStore : Dictionary<int, Dictionary<int, List<string>>> {
 
 	private List<int> targetObjIdList = new List<int>();
 
@@ -12,24 +12,41 @@ public class EventStore : Dictionary<int, Dictionary<int, string>> {
 		es.targetObjIdList.Add(1);
 		es.targetObjIdList.Add(2);
 
-		Dictionary<int, string> kv1 = new Dictionary<int, string>();
-		kv1.Add(0, "疑?這裡怎麼有個棺材??");
-		kv1.Add(1, "......");
-		kv1.Add(2, "打不開...");
+		Dictionary<int, List<string>> kv1 = new Dictionary<int, List<string>>();
+		kv1.Add(0, new List<string>());
+		kv1[0].Add("Um?");
+		kv1[0].Add("What's this?");
+
+		kv1.Add(1, new List<string>());
+		kv1[1].Add("......");
+
+		kv1.Add(2, new List<string>());
+		kv1[2].Add("I can't open it ...");
 
 		es.Add(0, kv1);
 
-		Dictionary<int, string> kv2 = new Dictionary<int, string>();
-		kv2.Add(0, "......");
-		kv2.Add(1, "這是...馬車??");
-		kv2.Add(2, "打不開...");
+		Dictionary<int, List<string>> kv2 = new Dictionary<int, List<string>>();
+		kv2.Add(0, new List<string>());
+		kv2[0].Add("......");
+
+		kv2.Add(1, new List<string>());
+		kv2[1].Add("This is ... ");
+		kv2[1].Add("cart ... ??");
+
+		kv2.Add(2, new List<string>());
+		kv2[2].Add("I can't open it ...");
 
 		es.Add(1, kv2);
 		
-		Dictionary<int, string> kv3 = new Dictionary<int, string>();
-		kv3.Add(0, "......");
-		kv3.Add(1, "......");
-		kv3.Add(2, "打開了!!");
+		Dictionary<int, List<string>> kv3 = new Dictionary<int, List<string>>();
+		kv3.Add(0, new List<string>());
+		kv3[0].Add("......");
+
+		kv3.Add(1, new List<string>());
+		kv3[1].Add("......");
+
+		kv3.Add(2, new List<string>());
+		kv3[2].Add("It is open !!");
 
 		es.Add(2, kv3);
 
@@ -43,16 +60,13 @@ public class EventStore : Dictionary<int, Dictionary<int, string>> {
 		return targetObjIdList[eid] == oid;
 	}
 
-	public string getMessage(int eid, int oid) {
-		string msg;
+	public List<string> getMessage(int eid, int oid) {
 
 		while (!this.ContainsKey(eid) || !this[eid].ContainsKey(oid)) {
 			eid--;
 		}
 
-		msg = this[eid][oid];
-
-		return msg;
+		return this[eid][oid];
 
 	}
 

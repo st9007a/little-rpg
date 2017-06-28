@@ -13,13 +13,12 @@ public class EventManager : MonoBehaviour {
 	}
 
 	public void postMessage(int objectId) {
-		string message = store.getMessage(currentEventId, objectId);
+		List<string> message = store.getMessage(currentEventId, objectId);
+		DialogBox db = GameObject.Find("DialogBox").GetComponent<DialogBox>();
 
-		if (store.triggerEvent(currentEventId, objectId)) {
+		if (db.SetMessage(message) && store.triggerEvent(currentEventId, objectId)) {
 			currentEventId++;
 		}
-
-		Debug.Log(message);
 	}
 
 }

@@ -13,7 +13,11 @@
             HorizontalScrollbarVisibility="Hidden"
             VerticalScrollbarVisibility="Hidden"
             >
-            <Label Text="{message}" Margin="10,10,10,10"></Label>
+            <Label 
+                FontColor="#ffffff"
+                Text="{message}" 
+                Margin="10,10,10,10"
+                />
         </Panel>
     </Region>
 </DialogBox>
