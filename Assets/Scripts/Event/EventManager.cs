@@ -13,11 +13,21 @@ public class EventManager : MonoBehaviour {
 	}
 
 	public void postMessage(int objectId) {
-		List<string> message = store.getMessage(currentEventId, objectId);
+		SingleEvent message = store.getMessage(currentEventId, objectId);
 		DialogBox db = GameObject.Find("DialogBox").GetComponent<DialogBox>();
 
-		if (db.SetMessage(message) && store.triggerEvent(currentEventId, objectId)) {
-			currentEventId++;
+		if (db.SetMessage(message)) {
+			switch (message.callback) {
+				case SingleEvent.CallbackAction.Door:
+					Debug.Log("Open Door");
+					break;
+				default:
+					break;
+			}
+
+			if (store.triggerEvent(currentEventId, objectId)) {
+				currentEventId++;
+			}
 		}
 	}
 
