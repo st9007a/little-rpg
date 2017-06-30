@@ -19,7 +19,7 @@ public class JumpBehavior : StateMachineBehaviour {
 		timer = 0;
 		isJump = false;
 		rb = animator.gameObject.GetComponent<Rigidbody>();
-		rb.velocity = new Vector3(0, animator.gameObject.GetComponent<Rigidbody>().velocity.y, 0);
+		rb.velocity = new Vector3(0, rb.velocity.y, 0);
 	}
 
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -40,7 +40,9 @@ public class JumpBehavior : StateMachineBehaviour {
 	}
 
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-	
+		Vector3 resetY = rb.velocity;
+		resetY.y = 0;
+		rb.velocity = resetY;
 	}
 
 }
